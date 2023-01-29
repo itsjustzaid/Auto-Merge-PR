@@ -1,6 +1,9 @@
 name: Auto approve
 
-on: pull_request_target
+on:
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
@@ -8,10 +11,11 @@ jobs:
     permissions:
       pull-requests: write
     steps:
+      - name: Print head branch on PR
+        run: |
+          echo ${{ github.event.pull_request.head_ref }}
       - name: Auto Approve PR
         if: ${{ github.event.pull_request.head_ref }} == 'auto-update-exchange-rates'
         uses: hmarr/auto-approve-action@v3
-        run: |
-          echo "Auto approving PR with base ref to ${{ github.event.pull_request.base_ref }} and head ref to ${{ github.event.pull_request.head_ref }}" 
         with:
           review-message: "Auto approved automated PR"
