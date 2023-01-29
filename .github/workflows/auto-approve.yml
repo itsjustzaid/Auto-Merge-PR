@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  automerge:
+  autoapprove:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
