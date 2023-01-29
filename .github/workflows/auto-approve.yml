@@ -17,7 +17,7 @@ jobs:
           echo ${{ github.actor }}
 
       - name: Auto Approve PR
-        if: ${{ github.head_ref }} == 'auto-update-exchange-rates'
+        if: ${{ github.head_ref == 'auto-update-exchange-rates' }}
         uses: hmarr/auto-approve-action@v3
         with: 
           github-token: ${{ secrets.GITHUB_TOKEN }}
