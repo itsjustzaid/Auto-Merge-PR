@@ -1,0 +1,52 @@
+name: Exchange Rates
+
+on: 
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v3
+
+      - name: Fetch exchange rates
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p resources
+          cd ./resources
+          BASE_CURRENCY=${{ secrets.EXCHANGE_RATES_BASE_CURRENCY }}
+          IFS=',' read -ra ADDR <<< "$BASE_CURRENCY"
+          for i in "${ADDR[@]}"; do
+            gh api --header 'apikey: ${{ secrets.EXCHANGE_RATE_API_KEY }}' --method GET ${{ secrets.EXCHANGE_RATES_ENDPOINT }}/latest -f base="$i" -f symbols=${{ secrets.EXCHANGE_RATE_SYMBOLS }} > "exchange-rates.$i.json"
+          done
+      
+      - name: Get token 
+        uses: tibdex/github-app-token@v1
+        id: generate-token
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+      
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with: 
+          token: ${{ steps.generate-token.outputs.token }}
+          commit-message: Update exchange rates
+          committer: GitHub <noreply@github.com>
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          branch: auto-update-exchange-rates
+          labels: automated
+          base: main
+          title: "🤖 Auto Update Exchange Rates"
+          body: |
+            Update report 🤖!!
+            - This is an auto generating PR  
+            - This PR updates exchange rates
+          delete-branch: true

@@ -1,0 +1,26 @@
+name: Auto approve and merge PR
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Generate token 
+        uses: tibdex/github-app-token@v1
+        id: generate-token
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Auto approve PR for exchange rate
+        if: ${{ github.head_ref == 'auto-update-exchange-rates' }}
+        uses: hmarr/auto-approve-action@v3
+        with: 
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          review-message: "Reviewed by a 🤖"
