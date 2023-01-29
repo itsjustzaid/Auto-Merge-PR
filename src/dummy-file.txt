@@ -1,0 +1,1 @@
+This is a dummy file to check if auto apporve and auto merge does not approves and merge this file
