@@ -27,4 +27,27 @@ jobs:
             BASE=$(echo "$(sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'<<<"${i}")")
             gh api --header 'apikey: ${{ secrets.EXCHANGE_RATE_API_KEY }}' --method GET ${{ secrets.EXCHANGE_RATES_ENDPOINT }}/latest -f base="$BASE" -f symbols=${{ secrets.EXCHANGE_RATE_SYMBOLS }} > "exchange-rates.$BASE.json"
           done
-          
+      
+      - name: Get token 
+        uses: tibdex/github-app-token@v1
+        id: generate-token
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+      
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with: 
+          token: ${{ steps.generate-token.outputs.token }}
+          commit-message: Update exchange rates
+          committer: GitHub <noreply@github.com>
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          branch: auto-update-exchange-rates
+          labels: automated
+          base: main
+          title: "Auto Update Exchange Rates"
+          body: |
+            Update report
+            - Updated with *today's* date
+            - This is an auto generating PR 
+          delete-branch: true
