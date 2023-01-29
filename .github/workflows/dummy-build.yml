@@ -19,3 +19,7 @@ jobs:
         run: |
           echo ${{ github.ref }}
           echo $(git branch --show-current) 
+
+      - name: Print github event
+        run : |
+          more $GITHUB_EVENT_PATH
