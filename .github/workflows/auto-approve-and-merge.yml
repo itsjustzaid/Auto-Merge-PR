@@ -32,9 +32,12 @@ jobs:
       - name: Auto merge PR for exchange rate
         if: ${{ github.head_ref == 'auto-update-exchange-rates' }}
         env:
+          BASE_BRANCHES: main
           GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
           MERGE_LABELS: automated
           MERGE_COMMIT_MESSAGE: "🤖 PR was merged automatically"
-          BASE_BRANCHES: main
+          MERGE_RETRIES: "10"
+          MERGE_RETRY_SLEEP: "10000"
+          MERGE_REQUIRED_APPROVALS: "1"
         uses: "pascalgn/automerge-action@v0.15.5"
         
