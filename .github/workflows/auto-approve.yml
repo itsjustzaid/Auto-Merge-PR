@@ -13,9 +13,9 @@ jobs:
     steps:
       - name: Print head branch on PR
         run: |
-          echo ${{ github.event.pull_request.head_ref }}
+          echo $GITHUB_HEAD_REF
       - name: Auto Approve PR
-        if: ${{ github.event.pull_request.head_ref }} == 'auto-update-exchange-rates'
+        if: $GITHUB_HEAD_REF == 'auto-update-exchange-rates'
         uses: hmarr/auto-approve-action@v3
         with:
           review-message: "Auto approved automated PR"
