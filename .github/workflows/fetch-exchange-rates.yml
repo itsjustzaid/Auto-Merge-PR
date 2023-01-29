@@ -16,12 +16,8 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           mkdir -p resources
-          cd ./resources
-          BASE_CURRENCY=${{ secrets.EXCHANGE_RATES_BASE_CURRENCY }}
-          IFS=',' read -ra ADDR <<< "$BASE_CURRENCY"
-          for i in "${ADDR[@]}"; do
-            gh api --header 'apikey: ${{ secrets.EXCHANGE_RATE_API_KEY }}' --method GET ${{ secrets.EXCHANGE_RATES_ENDPOINT }}/latest -f base="$i" -f symbols=${{ secrets.EXCHANGE_RATE_SYMBOLS }} > "exchange-rates.$i.json"
-          done
+          cd ./resources 
+          echo "This was added at $(date)" >> append-log.logs
       
       - name: Get token 
         uses: tibdex/github-app-token@v1
