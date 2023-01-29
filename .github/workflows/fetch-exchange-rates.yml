@@ -21,10 +21,12 @@ jobs:
         run: |
           mkdir -p resources
           cd ./resources
-          BASE_CURRENCY=${{ secrets.EXCHANGE_RATES_BASE_CURRENCY }}
+          BASE_CURRENCIES=${{ secrets.EXCHANGE_RATES_BASE_CURRENCY }}
           IFS=',' read -ra ADDR <<< "$BASE_CURRENCY"
-          for i in "${ADDR[@]}"; do
-            gh api --header 'apikey: ${{ secrets.EXCHANGE_RATE_API_KEY }}' --method GET ${{ secrets.EXCHANGE_RATES_ENDPOINT }}/latest -f base="$i" -f symbols=${{ secrets.EXCHANGE_RATE_SYMBOLS }} > "exchange-rates.$i.json"
+          for i in "${ADDR[@]}"; 
+          do
+            BASE=$(echo "$(sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'<<<"${i}")")
+            gh api --header 'apikey: ${{ secrets.EXCHANGE_RATE_API_KEY }}' --method GET ${{ secrets.EXCHANGE_RATES_ENDPOINT }}/latest -f base="$BASE" -f symbols=${{ secrets.EXCHANGE_RATE_SYMBOLS }} > "exchange-rates.$BASE.json"
           done
       
       - name: Get token 
