@@ -1,12 +1,23 @@
-name: Auto approve and merge PR
+name: Auto approve PR
 
 on:
   pull_request:
-    branches:
-      - main
+    types:
+      - labeled
+      - unlabeled
+      - synchronize
+      - opened
+      - edited
+      - ready_for_review
+      - reopened
+      - unlocked
+  pull_request_review:
+    types:
+      - submitted
   check_suite:
     types:
       - completed
+  status: {}
 
 jobs:
   build:
@@ -22,13 +33,6 @@ jobs:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
-      - name: Auto approve PR for exchange rate
-        if: ${{ github.head_ref == 'auto-update-exchange-rates' }}
-        uses: hmarr/auto-approve-action@v3
-        with: 
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          review-message: "Reviewed by a 🤖"
-
       - name: Auto merge PR for exchange rate
         if: ${{ github.head_ref == 'auto-update-exchange-rates' }}
         env:
@@ -37,7 +41,6 @@ jobs:
           MERGE_LABELS: automated
           MERGE_COMMIT_MESSAGE: "🤖 PR was merged automatically"
           MERGE_RETRIES: "10"
-          MERGE_RETRY_SLEEP: "10000"
+          MERGE_RETRY_SLEEP: "20000"
           MERGE_REQUIRED_APPROVALS: "1"
         uses: "pascalgn/automerge-action@v0.15.5"
-        
