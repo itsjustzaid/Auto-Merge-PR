@@ -17,5 +17,5 @@ jobs:
       
       - name: Name github branch
         run: |
-          echo ${{ githyb.ref }}
+          echo ${{ github.ref }}
           echo $(git branch --show-current) 
