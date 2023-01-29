@@ -16,4 +16,5 @@ jobs:
         uses: hmarr/auto-approve-action@v3
         run: |
           echo "Auto approving PR with base ref to ${{ github.event.pull_request.base_ref }} and head ref to ${{ github.event.pull_request.head_ref }}" 
-        review-message: "Auto approved automated PR"
+        with:
+          review-message: "Auto approved automated PR"
