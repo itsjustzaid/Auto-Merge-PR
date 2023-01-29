@@ -1,0 +1,30 @@
+name: Exchange Rates
+
+on: 
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v3
+
+      - name: Fetch exchange rates
+        run: |
+          mkdir -p resources
+          cd ./resources
+          BASE_CURRENCIES=${{ secrets.EXCHANGE_RATES_BASE_CURRENCY }}
+          BASE_CURRENCIES=$(echo "$(sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'<<<"${BASE_CURRENCIES}")")
+          IFS=',' read -ra BSARRAY <<< "$BASE_CURRENCY"
+          for i in "${BSARRAY[@]}"; 
+          do
+            BASE=$(echo "$(sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'<<<"${i}")")
+            gh api --header 'apikey: ${{ secrets.EXCHANGE_RATE_API_KEY }}' --method GET ${{ secrets.EXCHANGE_RATES_ENDPOINT }}/latest -f base="$BASE" -f symbols=${{ secrets.EXCHANGE_RATE_SYMBOLS }} > "exchange-rates.$BASE.json"
+          done
+          
