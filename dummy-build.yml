@@ -1,0 +1,21 @@
+name: Dummy Build
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v3
+      
+      - name: Name github branch
+        run: |
+          echo ${{ githyb.ref }}
+          echo $(git branch --show-current) 
