@@ -44,9 +44,9 @@ jobs:
           branch: auto-update-exchange-rates
           labels: automated
           base: main
-          title: "Auto Update Exchange Rates"
+          title: "🤖 Auto Update Exchange Rates"
           body: |
-            Update report
-            - Updated with *today's* date
-            - This is an auto generating PR 
+            Update report 🤖!!
+            - This is an auto generating PR  
+            - This PR updates exchange rates
           delete-branch: true
