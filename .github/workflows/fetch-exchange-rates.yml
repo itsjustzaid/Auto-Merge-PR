@@ -16,6 +16,8 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Fetch exchange rates
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           mkdir -p resources
           cd ./resources
