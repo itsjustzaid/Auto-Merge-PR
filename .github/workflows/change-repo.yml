@@ -2,7 +2,7 @@ name: Exchange Rates
 
 on:
   schedule:
-    - cron: "*/15 * * * *"
+    - cron: "*/5 * * * *"
 
 jobs:
   automerge:
