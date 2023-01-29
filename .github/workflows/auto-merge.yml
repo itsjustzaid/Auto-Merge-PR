@@ -43,4 +43,5 @@ jobs:
           MERGE_RETRIES: "10"
           MERGE_RETRY_SLEEP: "20000"
           MERGE_REQUIRED_APPROVALS: "1"
+          MERGE_DELETE_BRANCH: true
         uses: "pascalgn/automerge-action@v0.15.5"
