@@ -11,6 +11,11 @@ jobs:
     permissions:
       pull-requests: write
     steps:
+      - name: Print Head Ref and actor
+        run: |
+          echo ${{ github.head_ref }}
+          echo ${{ github.actor }}
+
       - name: Auto Approve PR
         if: ${{ github.head_ref }} == 'auto-update-exchange-rates'
         uses: hmarr/auto-approve-action@v3
