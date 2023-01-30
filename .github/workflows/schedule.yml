@@ -28,6 +28,7 @@ jobs:
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
       
       - name: Create Pull Request
+        id: create-pr
         uses: peter-evans/create-pull-request@v4
         with: 
           token: ${{ steps.generate-token.outputs.token }}
@@ -43,3 +44,7 @@ jobs:
             - This is an auto generating PR  
             - This PR updates append-log.logs file
           delete-branch: true
+      
+
+      - name: Print output of Create Pull request
+        run: echo ${{ steps.create-pr.outputs }}
