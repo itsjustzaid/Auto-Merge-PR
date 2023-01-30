@@ -42,3 +42,4 @@ jobs:
             Update report 🤖!!
             - This is an auto generating PR  
             - This PR updates exchange rates
+          delete-branch: true
