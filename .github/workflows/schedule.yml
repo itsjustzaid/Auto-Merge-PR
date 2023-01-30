@@ -52,7 +52,7 @@ jobs:
         with: 
           github-token: ${{ secrets.GITHUB_TOKEN }}
           review-message: "Reviewed by a 🤖"
-          pull-request-number: ${{ $PULL_REQUEST_NUMBER }}
+          pull-request-number: ${{ env.PULL_REQUEST_NUMBER }}
 
       - name: Auto merge PR for exchange rate
         if: ${{ github.head_ref == 'auto-update-exchange-rates' }}
