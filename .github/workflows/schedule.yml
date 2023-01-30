@@ -55,7 +55,6 @@ jobs:
           pull-request-number: ${{ env.PULL_REQUEST_NUMBER }}
 
       - name: Auto merge PR for exchange rate
-        if: ${{ github.head_ref == 'auto-update-exchange-rates' }}
         env:
           BASE_BRANCHES: main
           GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
