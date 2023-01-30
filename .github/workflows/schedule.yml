@@ -61,7 +61,7 @@ jobs:
           MERGE_LABELS: automated
           MERGE_COMMIT_MESSAGE: "🤖 PR was merged automatically"
           MERGE_RETRIES: "10"
-          MERGE_RETRY_SLEEP: "10000"
+          MERGE_RETRY_SLEEP: "60000"
           MERGE_REQUIRED_APPROVALS: "1"
           MERGE_DELETE_BRANCH: true
           MERGE_ERROR_FAIL: true
