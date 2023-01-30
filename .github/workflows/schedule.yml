@@ -65,4 +65,5 @@ jobs:
           MERGE_REQUIRED_APPROVALS: "1"
           MERGE_DELETE_BRANCH: true
           MERGE_ERROR_FAIL: true
+          PULL_REQUEST: ${{ env.PULL_REQUEST_NUMBER }}
         uses: "pascalgn/automerge-action@v0.15.5"
