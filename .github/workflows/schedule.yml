@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  auto-approve-and-merge:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
@@ -53,6 +53,15 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           review-message: "Reviewed by a 🤖"
           pull-request-number: ${{ env.PULL_REQUEST_NUMBER }}
+
+      - name: Wait for build to succeed
+        uses: fountainhead/action-wait-for-check@v1.1.0
+        id: wait-for-build
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          checkName: build
+          ref: ${{ env.PULL_REQUEST_HEAD_SHA }}
+          timeoutSeconds: "300"
 
       - name: Auto merge PR for exchange rate
         env:
