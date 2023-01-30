@@ -24,3 +24,6 @@ jobs:
         run : |
           more $GITHUB_EVENT_PATH
 
+      - name: Sleep for 120 seconds
+        run: sleep 120s
+        shell: bash
