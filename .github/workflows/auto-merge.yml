@@ -17,7 +17,7 @@ on:
   status: {}
 
 jobs:
-  build:
+  automerge:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
