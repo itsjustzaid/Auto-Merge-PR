@@ -6,8 +6,10 @@ on:
   workflow_dispatch:
 
 jobs:
-  automerge:
+  build:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v3
@@ -45,6 +47,23 @@ jobs:
             - This PR updates append-log.logs file
           delete-branch: true
       
+      - name: Auto approve PR for exchange rate
+        uses: hmarr/auto-approve-action@v3
+        with: 
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          review-message: "Reviewed by a 🤖"
+          pull-request-number: $PULL_REQUEST_NUMBER
 
-      - name: Print output of Create Pull request
-        run: echo $PULL_REQUEST_NUMBER
+      - name: Auto merge PR for exchange rate
+        if: ${{ github.head_ref == 'auto-update-exchange-rates' }}
+        env:
+          BASE_BRANCHES: main
+          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
+          MERGE_LABELS: automated
+          MERGE_COMMIT_MESSAGE: "🤖 PR was merged automatically"
+          MERGE_RETRIES: "10"
+          MERGE_RETRY_SLEEP: "10000"
+          MERGE_REQUIRED_APPROVALS: "1"
+          MERGE_DELETE_BRANCH: true
+          MERGE_ERROR_FAIL: true
+        uses: "pascalgn/automerge-action@v0.15.5"
