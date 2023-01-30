@@ -54,27 +54,27 @@ jobs:
           review-message: "Reviewed by a 🤖"
           pull-request-number: ${{ env.PULL_REQUEST_NUMBER }}
 
-      - name: Wait for build to succeed
-        uses: fountainhead/action-wait-for-check@v1.1.0
-        id: wait-for-build
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          checkName: build
-          ref: ${{ env.PULL_REQUEST_HEAD_SHA }}
-          timeoutSeconds: "300"
+      # - name: Wait for build to succeed
+      #   uses: fountainhead/action-wait-for-check@v1.1.0
+      #   id: wait-for-build
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     checkName: build
+      #     ref: ${{ env.PULL_REQUEST_HEAD_SHA }}
+      #     timeoutSeconds: "300"
 
-      - name: Auto merge PR for exchange rate
-        env:
-          BASE_BRANCHES: main
-          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
-          MERGE_LABELS: automated
-          MERGE_COMMIT_MESSAGE: "🤖 PR was merged automatically"
-          UPDATE_RETRIES: "10"
-          UPDATE_RETRIES_SLEEP: "60000"
-          MERGE_RETRIES: "5"
-          MERGE_RETRY_SLEEP: "60000"
-          MERGE_REQUIRED_APPROVALS: "1"
-          MERGE_DELETE_BRANCH: true
-          MERGE_ERROR_FAIL: true
-          PULL_REQUEST: ${{ env.PULL_REQUEST_NUMBER }}
-        uses: "pascalgn/automerge-action@v0.15.5"
+      # - name: Auto merge PR for exchange rate
+      #   env:
+      #     BASE_BRANCHES: main
+      #     GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
+      #     MERGE_LABELS: automated
+      #     MERGE_COMMIT_MESSAGE: "🤖 PR was merged automatically"
+      #     UPDATE_RETRIES: "10"
+      #     UPDATE_RETRIES_SLEEP: "60000"
+      #     MERGE_RETRIES: "5"
+      #     MERGE_RETRY_SLEEP: "60000"
+      #     MERGE_REQUIRED_APPROVALS: "1"
+      #     MERGE_DELETE_BRANCH: true
+      #     MERGE_ERROR_FAIL: true
+      #     PULL_REQUEST: ${{ env.PULL_REQUEST_NUMBER }}
+      #   uses: "pascalgn/automerge-action@v0.15.5"
