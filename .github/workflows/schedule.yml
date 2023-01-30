@@ -1,4 +1,4 @@
-name: Exchange Rates
+name: Append to file
 
 on:
   schedule:
